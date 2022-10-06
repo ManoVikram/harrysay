@@ -53,7 +53,7 @@ func main() {
 
 		rand.Seed(time.Now().UnixNano())
 
-		fileNumber := rand.Intn(getNumberOfHarryFiles())
+		fileNumber := rand.Intn(getNumberOfHarryFiles() - 1)
 
 		file, err := embedHarryFiles.ReadFile("harry/harry_" + strconv.Itoa(fileNumber+1) + ".txt")
 
