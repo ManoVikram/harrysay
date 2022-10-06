@@ -4,12 +4,25 @@ import (
 	"embed"
 	"fmt"
 	"log"
+	"math/rand"
 	"os"
+	"strconv"
 	"strings"
+	"time"
 )
 
 //go:embed harry
 var embedHarryFiles embed.FS
+
+func getNumberOfHarryFiles() int {
+	files, err := embedHarryFiles.ReadDir("harry")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return len(files)
+}
 
 func main() {
 	if len(os.Args) == 1 || (len(os.Args) == 2 && os.Args[1] == "-h") || (len(os.Args) == 2 && os.Args[1] == "--help") {
@@ -38,7 +51,11 @@ func main() {
 		fmt.Println("         \\")
 		fmt.Println("          \\")
 
-		file, err := embedHarryFiles.ReadFile("harry/harry_1.txt")
+		rand.Seed(time.Now().UnixNano())
+
+		fileNumber := rand.Intn(getNumberOfHarryFiles())
+
+		file, err := embedHarryFiles.ReadFile("harry/harry_" + strconv.Itoa(fileNumber+1) + ".txt")
 
 		if err != nil {
 			log.Fatal("Error reading the ASCII file!")
